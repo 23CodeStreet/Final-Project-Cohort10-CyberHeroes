@@ -27,4 +27,81 @@ canvas {
   margin: auto;
   display: block;
   border: 2px solid black;
+
+}
+
+/* Kathryn's code */
+h1 {
+  font-size: 4em;
+  font-family: 'Press Start 2P', cursive;
+  text-align: center;
+  padding: 0.5em;
+  background-color: #F2D51D;
+  color: #FF0202;
+  display: flex;
+  justify-content: center;
+}
+
+body {
+  background-color: #F2D51D;
+}
+
+section {
+
+}
+
+p {
+  font-size: 1.5em;
+  font-family: 'Press Start 2P', cursive;
+  text-align: center;
+  padding: 0.5em;
+  background-color: #F2D51D;
+  color: #004D77;
+  display: flex;
+  justify-content: center;
+}
+
+
+
+.container {
+  display: flex;
+  justify-content: space-evenly;
+  padding: 5em 10em 0em 10em;
+}
+
+.img1{
+    height: 14em;
+    width: 12em;
+}
+
+.img2{
+    height: 14em;
+    width: 8em;
+}
+
+/* nav bar */
+
+ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background-color: #F2D51D;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+li {
+    float: left;
+  }
+
+li a {
+  display: block;
+  color: #004D77;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+  font-family: 'Press Start 2P', cursive;
+  font-size: 1em;
 }
