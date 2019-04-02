@@ -105,3 +105,22 @@ li a {
   font-family: 'Press Start 2P', cursive;
   font-size: 1em;
 }
+
+
+/* Css for landing page */
+.landing-container {
+  height: 100vh;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  flex-direction: column;
+}
+
+.main-logo {
+  width: 90%;
+  max-width: 700px;
+}
+
+.start-btn {
+  max-width: 250px;
+}
