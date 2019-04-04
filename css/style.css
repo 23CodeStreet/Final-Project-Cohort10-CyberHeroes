@@ -1,18 +1,20 @@
+@import url('https://fonts.googleapis.com/css?family=Press+Start+2P');
+
 
 * {
   box-sizing: border-box;
 }
 
 body {
-  background-color: yellow;
+  background-color: #feef47;
   color: red;
-  font-family: 'Open Sans', sans-serif;
+  font-family: 'Press Start 2P', cursive;
 }
 
 
 header {
   background: red;
-  color: yellow;
+  color: #feef47;
   font-size: 2em;
   padding-top: 1em;
   padding-bottom: 1em;
@@ -27,4 +29,103 @@ canvas {
   margin: auto;
   display: block;
   border: 2px solid black;
+
+}
+
+/* Kathryn's code */
+h1 {
+  font-size: 4em;
+  font-family: 'Press Start 2P', cursive;
+  text-align: center;
+  padding: 0.5em;
+  background-color: #feef47;
+  color: #FF0202;
+  display: flex;
+  justify-content: center;
+}
+
+body {
+  background-color: #feef47;
+  margin-bottom: 2em;
+}
+
+p {
+  font-size: 1.5em;
+  font-family: 'Press Start 2P', cursive;
+  text-align: center;
+  padding: 0.5em;
+  color: #004D77;
+  display: flex;
+  justify-content: center;
+}
+
+
+
+.container {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: flex-end;
+  padding: 5em 10em 0em 10em;
+}
+
+.img1{
+    width: 10em;
+}
+
+.img2{
+    width: 6em;
+}
+
+.img3 {
+  width: 10em;
+}
+
+
+/* nav bar */
+
+ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+li {
+    float: left;
+  }
+
+li a {
+  display: block;
+  color: #004D77;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+  font-family: 'Press Start 2P', cursive;
+  font-size: 1em;
+}
+
+
+/* Css for landing page */
+.landing-container {
+  height: 100vh;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  flex-direction: column;
+}
+
+.main-logo {
+  width: 90%;
+  max-width: 700px;
+}
+
+.start-btn {
+  max-width: 250px;
+}
+
+.start-btn:hover {
+
 }
