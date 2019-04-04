@@ -70,31 +70,37 @@ function drawStudent() {
 }
 
 
+function studentMeetCoin() {
+  for (var i = 0; i < state.coins.length; i = i + 1) {
+    var coin = state.coins[i];
+    if (coin.y <= state.student.y + state.student.size &&
+      state.student.y <= coin.y + coin.size &&
+      coin.x <= state.student.x + state.student.size &&
+      state.student.x <= coin.x + coin.size) {
+    questionPage();
+    console.log(state.coins.splice(i, 1));
+  }
+}
+}
 
 
 function moveStudent() {
-  for (var i = 0; i < state.coins.length; i = i + 1) {
-    var coin = state.coins[i];
-    if (coin.y <= state.student.y + state.student.size && state.student.y <= coin.y + coin.size && coin.x <= state.student.x + state.student.size && state.student.x <= coin.x + coin.size) {
-    questionPage();
-  }
-
-
-  else if (state.upPressed) {
-      state.student.y = state.student.y - 1;
+  if (state.upPressed) {
+      state.student.y = state.student.y - 4;
     }
    else if (state.downPressed) {
-      state.student.y = state.student.y + 1;
+      state.student.y = state.student.y + 4;
   } else if (state.leftPressed) {
-      state.student.x = state.student.x - 1;
+      state.student.x = state.student.x - 4;
   } else if (state.rightPressed) {
-      state.student.x = state.student.x + 1;
+      state.student.x = state.student.x + 4;
   } else {
       state.student.x = state.student.x;
       state.student.y = state.student.y;
   }
 }
-}
+
+
 
 
 // General code
@@ -134,7 +140,7 @@ function draw() {
   drawCoins();
 
   moveStudent();
-
+  studentMeetCoin();
 }
 
 
