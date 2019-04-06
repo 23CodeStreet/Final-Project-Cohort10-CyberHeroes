@@ -9,7 +9,7 @@ var ctx = canvas.getContext("2d");
 ctx.font = "30px Georgia";
 ctx.fillText("Click to start...", canvas.width/2.8, canvas.height/2)
 
-
+var coinSound = new sound("sounds/coinsound.mp3");
 
 var coin1 = {
   size: 20,
@@ -78,9 +78,25 @@ function studentMeetCoin() {
       coin.x <= state.student.x + state.student.size &&
       state.student.x <= coin.x + coin.size) {
     questionPage();
+    coinSound.play();
     console.log(state.coins.splice(i, 1));
   }
 }
+}
+
+function sound(src) {
+    this.sound = document.createElement("audio");
+    this.sound.src = src;
+    this.sound.setAttribute("preload", "auto");
+    this.sound.setAttribute("controls", "none");
+    this.sound.style.display = "none";
+    document.body.appendChild(this.sound);
+    this.play = function(){
+        this.sound.play();
+    }
+    this.stop = function(){
+        this.sound.pause();
+    }
 }
 
 
@@ -129,6 +145,7 @@ function questionPage() {
   ctx.fillStyle = "black";
   ctx.font = "20px Georgia";
   ctx.fillText("Question question question question question", canvas.width/4, canvas.height/2);
+  coinSound.play();
 }
 
 
