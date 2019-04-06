@@ -148,7 +148,7 @@ function draw() {
 // User input code
   var body = document.getElementById("body");
 
-canvas.addEventListener("click", function(){ setInterval(draw, state.timeInterval);})
+window.addEventListener("load", function(){ setInterval(draw, state.timeInterval);})
 
 
 
