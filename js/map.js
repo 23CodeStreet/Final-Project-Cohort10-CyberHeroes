@@ -7,6 +7,7 @@ canvas.height = 500;
 var ctx = canvas.getContext("2d");
 
 // Object variables
+var coinSound = new sound("sounds/coinsound.mp3");
 
 var coin1 = {
   size: 20,
@@ -105,7 +106,23 @@ function studentMeetCoin() {
     state.coins.splice(i,1)
     }
 
+    coinSound.play();
   }
+}
+
+function sound(src) {
+    this.sound = document.createElement("audio");
+    this.sound.src = src;
+    this.sound.setAttribute("preload", "auto");
+    this.sound.setAttribute("controls", "none");
+    this.sound.style.display = "none";
+    document.body.appendChild(this.sound);
+    this.play = function(){
+        this.sound.play();
+    }
+    this.stop = function(){
+        this.sound.pause();
+    }
 }
 
 
@@ -194,6 +211,7 @@ function noButton() {
     }
   });
 
+  coinSound.play();
 }
 
 function continueButton() {
@@ -206,7 +224,6 @@ function continueButton() {
 
   canvas.addEventListener('click', function(event) {
     if (
-      event.x > button.x &&
       event.x < button.x + button.width &&
       event.y > button.y &&
       event.y < button.y + button.height

@@ -7,13 +7,13 @@
 
 body {
   background-color: #feef47;
-  color: red;
+  color: #FF0202;
   font-family: 'Press Start 2P', cursive;
 }
 
 
 header {
-  background: red;
+  background: #FF0202;
   color: #feef47;
   font-size: 2em;
   padding-top: 1em;
@@ -42,11 +42,6 @@ h1 {
   color: #FF0202;
   display: flex;
   justify-content: center;
-}
-
-body {
-  background-color: #feef47;
-  margin-bottom: 2em;
 }
 
 p {
@@ -124,8 +119,4 @@ li a {
 
 .start-btn {
   max-width: 250px;
-}
-
-.start-btn:hover {
-
 }
