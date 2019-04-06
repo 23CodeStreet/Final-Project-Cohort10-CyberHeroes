@@ -7,6 +7,7 @@ canvas.height = 500;
 var ctx = canvas.getContext("2d");
 
 // Object variables
+
 var coinSound = new sound("sounds/coinsound.mp3");
 
 var coin1 = {
@@ -104,9 +105,8 @@ function studentMeetCoin() {
       state.student.x <= coin.x + coin.size) {
     state.gameMode.question = true;
     state.coins.splice(i,1)
-    }
-
     coinSound.play();
+    }
   }
 }
 
