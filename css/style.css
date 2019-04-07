@@ -1,10 +1,5 @@
 @import url('https://fonts.googleapis.com/css?family=Press+Start+2P');
 
-
-* {
-  box-sizing: border-box;
-}
-
 body {
   background-color: #feef47;
   color: #FF0202;
@@ -60,7 +55,7 @@ p {
   display: flex;
   justify-content: space-evenly;
   align-items: flex-end;
-  padding: 10em 10em 0em 10em;
+  padding: 5em 10em 0em 10em;
 }
 
 .img1{
@@ -130,9 +125,13 @@ li a {
 }
 
 #user-name {
-  max-width: 250px;
-  padding: 3em 18em;
-  border: 10px solid #308d16;
+  padding: 1em 0;
+  border: 10px solid #0c1fb2;
+  font-family: 'Press Start 2P';
+  background: #1730fb;
+  color: white;
+  font-size: 2em;
+  text-align: center;
 }
 
 .lets-go {
