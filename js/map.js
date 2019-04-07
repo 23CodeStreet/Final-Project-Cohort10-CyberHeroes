@@ -6,10 +6,9 @@ canvas.height = 500;
 
 var ctx = canvas.getContext("2d");
 
-ctx.font = "30px Georgia";
-ctx.fillText("Click to start...", canvas.width/2.8, canvas.height/2)
+// Object variables
 
-
+var coinSound = new sound("sounds/coinsound.mp3");
 
 var coin1 = {
   size: 20,
@@ -35,16 +34,42 @@ var coin4 = {
   y: 300
 
 }
+
+var button1 = {
+  x: 200,
+  y: 250,
+  width: 100,
+  height: 50
+}
+
+var button2 = {
+  x: 400,
+  y: 250,
+  width: 100,
+  height: 50
+}
+
+var button3 = {
+  x: 300,
+  y: 350,
+  width: 100,
+  height: 50
+}
+
 var state = {
   upPressed: false,
   leftPressed: false,
   rightPressed: false,
   downPressed: false,
+  gameMode: {
+    question: false,
+  },
   student: {
     y: canvas.height / 8,
     x: canvas.width / 8,
     size: 40,
   },
+  buttons: [button1,button2,button3],
   timeInterval: 20,
   coins: [coin1,coin2,coin3,coin4],
 };
@@ -70,6 +95,7 @@ function drawStudent() {
 }
 
 
+
 function studentMeetCoin() {
   for (var i = 0; i < state.coins.length; i = i + 1) {
     var coin = state.coins[i];
@@ -77,10 +103,26 @@ function studentMeetCoin() {
       state.student.y <= coin.y + coin.size &&
       coin.x <= state.student.x + state.student.size &&
       state.student.x <= coin.x + coin.size) {
-    questionPage();
-    console.log(state.coins.splice(i, 1));
+    state.gameMode.question = true;
+    state.coins.splice(i,1)
+    coinSound.play();
+    }
   }
 }
+
+function sound(src) {
+    this.sound = document.createElement("audio");
+    this.sound.src = src;
+    this.sound.setAttribute("preload", "auto");
+    this.sound.setAttribute("controls", "none");
+    this.sound.style.display = "none";
+    document.body.appendChild(this.sound);
+    this.play = function(){
+        this.sound.play();
+    }
+    this.stop = function(){
+        this.sound.pause();
+    }
 }
 
 
@@ -101,37 +143,103 @@ function moveStudent() {
 }
 
 
-
-
 // General code
 
-function clearScreen() {
-  ctx.fillStyle = "white"
-  ctx.fillRect(0, 0, canvas.width, canvas.height);
-}
 
 function mapScreen() {
   var map = document.getElementById("map");
   ctx.drawImage(map, 0, 0, canvas.width, canvas.height);
 }
 
-
-function gameOver() {
-  clearScreen();
-  ctx.font = "20px Georgia";
-  ctx.fillText("Game Over!", canvas.width/2.5, canvas.height/2);
-  setTimeout (draw, 0);
-  canvas.addEventListener("click", function(){location.reload(false);});
+function clearScreen() {
+  ctx.fillStyle = "white"
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
 }
+
+// Question page code
 
 function questionPage() {
+  if(state.gameMode.question) {
   clearScreen();
   ctx.fillStyle = "black";
-  ctx.font = "20px Georgia";
-  ctx.fillText("Question question question question question", canvas.width/4, canvas.height/2);
+  ctx.font = "20px Courier New";
+  ctx.fillText("Question question question question question", canvas.width/6, canvas.height/4);
+  yesButton();
+  noButton();
+  continueButton();
+  }
+}
+
+// Buttons in question page code
+
+function yesButton() {
+  var button = state.buttons[0];
+  ctx.fillStyle = 'yellow';
+  ctx.fillRect(button.x, button.y, button.width, button.height);
+
+  ctx.fillStyle = "black";
+  ctx.fillText("Yes", button.x+30, button.y+30);
+
+  canvas.addEventListener('click', function(event) {
+    if (
+      event.x > button.x &&
+      event.x < button.x + button.width &&
+      event.y > button.y &&
+      event.y < button.y + button.height
+    ) {
+      alert('Yes button was clicked!');
+    }
+  });
+}
+
+function noButton() {
+  var button = state.buttons[1];
+  ctx.fillStyle = 'red';
+  ctx.fillRect(button.x, button.y, button.width, button.height);
+
+  ctx.fillStyle = "black";
+  ctx.fillText("No", button.x+30, button.y+30);
+
+  canvas.addEventListener('click', function(event) {
+    if (
+      event.x > button.x &&
+      event.x < button.x + button.width &&
+      event.y > button.y &&
+      event.y < button.y + button.height
+    ) {
+      alert('No button was clicked!');
+    }
+  });
+
+  coinSound.play();
+}
+
+function continueButton() {
+  var button = state.buttons[2];
+  ctx.fillStyle = 'blue';
+  ctx.fillRect(button.x, button.y, button.width, button.height);
+
+  ctx.fillStyle = "black";
+  ctx.fillText("Continue", button.x+5, button.y+30);
+
+  canvas.addEventListener('click', function(event) {
+    if (
+      event.x < button.x + button.width &&
+      event.y > button.y &&
+      event.y < button.y + button.height
+    ) {
+      alert('Continue');
+    }
+  });
+
 }
 
 
+function questionPageDisappears() {
+  state.gameMode.question = false;
+}
+
+canvas.addEventListener("click", questionPageDisappears);
 
 // Draw loop
 function draw() {
@@ -141,6 +249,8 @@ function draw() {
 
   moveStudent();
   studentMeetCoin();
+  questionPage();
+
 }
 
 
@@ -148,7 +258,7 @@ function draw() {
 // User input code
   var body = document.getElementById("body");
 
-canvas.addEventListener("click", function(){ setInterval(draw, state.timeInterval);})
+window.addEventListener("load", function(){ setInterval(draw, state.timeInterval);})
 
 
 
