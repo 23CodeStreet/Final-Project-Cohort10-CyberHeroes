@@ -1,55 +1,99 @@
 
+
 var canvas = document.querySelector("#screen")
 canvas.width = 700;
 canvas.height = 500;
 
 
 var ctx = canvas.getContext("2d");
+// Object variables
 
-ctx.font = "30px Georgia";
-ctx.fillText("Click to start...", canvas.width/2.8, canvas.height/2)
-
-
-
-var coin1 = {
-  size: 20,
-  x: canvas.width - 50,
-  y: 50
-
-}
-var coin2 = {
-  size: 20,
-  x: 100,
-  y: 200
-
-}
-var coin3 = {
-  size: 20,
-  x: canvas.width - 300,
-  y: canvas.height - 100
-
-}
-var coin4 = {
-  size: 20,
+var button1 = {
   x: 200,
-  y: 300
-
+  y: 250,
+  width: 100,
+  height: 50,
+  text:"Yes"
 }
+
+var button2 = {
+  x: 400,
+  y: 250,
+  width: 100,
+  height: 50,
+  text:"No"
+}
+
 var state = {
   upPressed: false,
   leftPressed: false,
   rightPressed: false,
   downPressed: false,
+  gameMode: {
+    question: false,
+    yesButton: false,
+    noButton: false,
+  },
   student: {
     y: canvas.height / 8,
     x: canvas.width / 8,
     size: 40,
   },
+  buttons: [button1,button2],
   timeInterval: 20,
-  coins: [coin1,coin2,coin3,coin4],
+  coins: [],
+  runningscore:0,
 };
 
 
+var coinSound = document.getElementById("coinSound");
+var correctSound = document.getElementById("correctSound");
+var incorrectSound = document.getElementById("incorrectSound");
+
+var coin1 = {
+  size: 20,
+  x: canvas.width - 50,
+  y: 50,
+  question:"Question 1: Yes is the right answer",
+  correctAnswer: state.buttons[0]
+
+}
+
+var coin2 = {
+  size: 20,
+  x: 100,
+  y: 200,
+  question:"Question 2: Yes is the right answer",
+  correctAnswer: state.buttons[0]
+
+}
+
+var coin3 = {
+  size: 20,
+  x: canvas.width - 300,
+  y: canvas.height - 100,
+  question:"Question 3: No is the right answer",
+  correctAnswer: state.buttons[1]
+
+}
+
+var coin4 = {
+  size: 20,
+  x: 200,
+  y: 300,
+  question:"Question 4: No is the right answer",
+  correctAnswer: state.buttons[1]
+
+}
+
+state.coins=[coin1,coin2,coin3,coin4];
+
+for(var i=0; i < state.coins.length; i = i + 1){
+  var x = Math.floor(Math.random()*600)+50
+  var y = Math.floor(Math.random()*400)+50
+  state.coins[i].x = x;
+  state.coins[i].y = y;
+}
 
 // Coin code
 
@@ -62,13 +106,20 @@ function drawCoins() {
 }
 
 
+//Score Code
+
+function drawScore(){
+  ctx.fillStyle = "black";
+	ctx.font = "40px Courier New";
+  ctx.fillText("Score:" + state.runningscore, 50, 50);
+}
 
 // Student code
+
 function drawStudent() {
   var student = document.getElementById("student");
   ctx.drawImage(student, state.student.x, state.student.y, state.student.size, state.student.size);
 }
-
 
 function studentMeetCoin() {
   for (var i = 0; i < state.coins.length; i = i + 1) {
@@ -77,11 +128,16 @@ function studentMeetCoin() {
       state.student.y <= coin.y + coin.size &&
       coin.x <= state.student.x + state.student.size &&
       state.student.x <= coin.x + coin.size) {
-    questionPage();
-    console.log(state.coins.splice(i, 1));
+		state.touchedCoin = coin;
+		state.gameMode.question = true;
+		state.coins.splice(i,1)
+		coinSound.play();
+    state.questionTimer = 1000;
+    }
   }
 }
-}
+
+
 
 
 function moveStudent() {
@@ -101,109 +157,186 @@ function moveStudent() {
 }
 
 
-
-
 // General code
 
-function clearScreen() {
-  ctx.fillStyle = "white"
-  ctx.fillRect(0, 0, canvas.width, canvas.height);
-}
 
 function mapScreen() {
   var map = document.getElementById("map");
   ctx.drawImage(map, 0, 0, canvas.width, canvas.height);
 }
 
-
-function gameOver() {
-  clearScreen();
-  ctx.font = "20px Georgia";
-  ctx.fillText("Game Over!", canvas.width/2.5, canvas.height/2);
-  setTimeout (draw, 0);
-  canvas.addEventListener("click", function(){location.reload(false);});
+function clearScreen() {
+  ctx.fillStyle = "white"
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
 }
+
 
 function questionPage() {
+  if(state.gameMode.question) {
   clearScreen();
+	ctx.fillStyle = "black";
+	ctx.font = "20px Courier New";
+	ctx.fillText(state.touchedCoin.question, canvas.width/6, canvas.height/4);
+  ctx.fillText(state.questionTimer, canvas.width/6, canvas.height/8);
+	yesButton();
+	noButton();
+}
+  if(state.questionTimer>0){
+    state.questionTimer--;
+  }
+}
+
+// Buttons in question page code
+
+function yesButton() {
+  var button = state.buttons[0];
+  ctx.fillStyle = 'yellow';
+  ctx.fillRect(button.x, button.y, button.width, button.height);
+
   ctx.fillStyle = "black";
-  ctx.font = "20px Georgia";
-  ctx.fillText("Question question question question question", canvas.width/4, canvas.height/2);
+  ctx.fillText("Yes", button.x+30, button.y+30);
+
+
 }
 
 
+function noButton() {
+  var button = state.buttons[1];
+  ctx.fillStyle = 'red';
+  ctx.fillRect(button.x, button.y, button.width, button.height);
+
+  ctx.fillStyle = "black";
+  ctx.fillText("No", button.x+30, button.y+30);
+
+
+
+}
+
+
+
+function answerButton() {
+  if (state.gameMode.yesButton) {
+    alert('Yes button was clicked!');
+  }
+  else if (state.gameMode.noButton) {
+    alert('No button was clicked!');
+  }
+}
+
+function questionPageDisappears() {
+  state.gameMode.question = false;
+}
+
+canvas.addEventListener('click', function(event) {
+	var sc = document.getElementById("screen");
+	var xClick = event.x + window.scrollX - sc.offsetLeft;
+	var yClick = event.y + window.scrollY - sc.offsetTop;
+
+	for(var i = 0, len = state.buttons.length; i<len; i++){
+		var button = state.buttons[i];
+
+		if (
+
+		  xClick > button.x &&
+		  xClick < button.x + button.width &&
+		  yClick > button.y &&
+		  yClick < button.y + button.height
+		) {
+      if (button == state.touchedCoin.correctAnswer) {
+        state.runningscore += state.questionTimer;
+        correctSound.play();
+      } else {
+        incorrectSound.play();
+      }
+
+		  questionPageDisappears();
+		}
+	}
+  });
+
+// function endPage() {
+//   if (state.coins.length = 0)
+//   {  clearScreen();
+//   	ctx.fillStyle = "black";
+//   	ctx.font = "20px Courier New";
+//   	ctx.fillText("Congratulations Cyber Hero", canvas.width/6, canvas.height/4);}
+// }
 
 // Draw loop
 function draw() {
-  mapScreen();
-  drawStudent();
-  drawCoins();
+		mapScreen();
+		drawStudent();
+		drawCoins();
+    drawScore();
+    moveStudent();
+    studentMeetCoin();
 
-  moveStudent();
-  studentMeetCoin();
+
+		questionPage();
+	
 }
 
 
 
 // User input code
-  var body = document.getElementById("body");
+var body = document.getElementById("body");
 
-canvas.addEventListener("click", function(){ setInterval(draw, state.timeInterval);})
+window.addEventListener("load", function(){ setInterval(draw, state.timeInterval);})
 
 
 
-  function upKeyDown(e) {
-    if (e.keyCode === 38) {
-      state.upPressed = true;
-    }
+function upKeyDown(e) {
+  if (e.keyCode === 38) {
+    state.upPressed = true;
   }
-  body.addEventListener("keydown", upKeyDown);
+}
+body.addEventListener("keydown", upKeyDown);
 
-  function upKeyUp(e) {
-    if (e.keyCode === 38) {
-      state.upPressed = false;
-    }
+function upKeyUp(e) {
+  if (e.keyCode === 38) {
+    state.upPressed = false;
   }
-  body.addEventListener("keyup", upKeyUp);
+}
+body.addEventListener("keyup", upKeyUp);
 
-  function downKeyDown(e) {
-    if (e.keyCode === 40) {
-      state.downPressed = true;
-    }
+function downKeyDown(e) {
+  if (e.keyCode === 40) {
+    state.downPressed = true;
   }
-  body.addEventListener("keydown", downKeyDown);
+}
+body.addEventListener("keydown", downKeyDown);
 
-  function downKeyUp(e) {
-    if (e.keyCode === 40) {
-      state.downPressed = false;
-    }
+function downKeyUp(e) {
+  if (e.keyCode === 40) {
+    state.downPressed = false;
   }
-  body.addEventListener("keyup", downKeyUp);
+}
+body.addEventListener("keyup", downKeyUp);
 
-  function leftKeyDown(e) {
+function leftKeyDown(e) {
+  if (e.keyCode === 37) {
+    state.leftPressed = true;
+  }
+}
+body.addEventListener("keydown", leftKeyDown);
+
+  function leftKeyUp(e) {
     if (e.keyCode === 37) {
-      state.leftPressed = true;
+      state.leftPressed = false;
     }
   }
-  body.addEventListener("keydown", leftKeyDown);
+  body.addEventListener("keyup", leftKeyUp);
 
-    function leftKeyUp(e) {
-      if (e.keyCode === 37) {
-        state.leftPressed = false;
-      }
-    }
-    body.addEventListener("keyup", leftKeyUp);
-
-  function rightKeyDown(e) {
-    if (e.keyCode === 39) {
-      state.rightPressed = true;
-    }
+function rightKeyDown(e) {
+  if (e.keyCode === 39) {
+    state.rightPressed = true;
   }
-  body.addEventListener("keydown", rightKeyDown);
+}
+body.addEventListener("keydown", rightKeyDown);
 
-  function rightKeyUp(e) {
-    if (e.keyCode === 39) {
-      state.rightPressed = false;
-    }
+function rightKeyUp(e) {
+  if (e.keyCode === 39) {
+    state.rightPressed = false;
   }
-  body.addEventListener("keyup", rightKeyUp);
+}
+body.addEventListener("keyup", rightKeyUp);
