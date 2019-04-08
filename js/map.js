@@ -33,6 +33,7 @@ var state = {
     question: false,
     yesButton: false,
     noButton: false,
+    noCoins: false,
   },
   student: {
     y: canvas.height / 8,
@@ -186,6 +187,9 @@ function questionPage() {
   }
 }
 
+
+
+
 // Buttons in question page code
 
 function yesButton() {
@@ -196,7 +200,6 @@ function yesButton() {
   ctx.fillStyle = "black";
   ctx.fillText("Yes", button.x+30, button.y+30);
 
-
 }
 
 
@@ -206,33 +209,41 @@ function noButton() {
   ctx.fillRect(button.x, button.y, button.width, button.height);
 
   ctx.fillStyle = "black";
-  ctx.fillText("No", button.x+30, button.y+30);
-
-
+  ctx.fillText("No", button.x + 30, button.y + 30);
 
 }
 
 
+// Answering questions
 
-function answerButton() {
-  if (state.gameMode.yesButton) {
-    alert('Yes button was clicked!');
-  }
-  else if (state.gameMode.noButton) {
-    alert('No button was clicked!');
-  }
-}
-
-function questionPageDisappears() {
+function questionPageDisappears(){
   state.gameMode.question = false;
+  if (state.coins.length === 0) {
+    state.gameMode.noCoins = true;
+  }
+
 }
+
+function leaderBoard() {
+  if(state.gameMode.noCoins)  {
+    clearScreen();
+    console.log("no coins");
+  	ctx.fillStyle = "black";
+  	ctx.font = "20px Courier New";
+  	ctx.fillText("You are a Cyber Hero. Your score is " + state.runningscore, canvas.width/6, canvas.height/4);
+
+}
+}
+
+
+
 
 canvas.addEventListener('click', function(event) {
 	var sc = document.getElementById("screen");
 	var xClick = event.x + window.scrollX - sc.offsetLeft;
 	var yClick = event.y + window.scrollY - sc.offsetTop;
 
-	for(var i = 0, len = state.buttons.length; i<len; i++){
+	for(var i = 0; i < state.buttons.length; i = i + 1){
 		var button = state.buttons[i];
 
 		if (
@@ -254,13 +265,7 @@ canvas.addEventListener('click', function(event) {
 	}
   });
 
-// function endPage() {
-//   if (state.coins.length = 0)
-//   {  clearScreen();
-//   	ctx.fillStyle = "black";
-//   	ctx.font = "20px Courier New";
-//   	ctx.fillText("Congratulations Cyber Hero", canvas.width/6, canvas.height/4);}
-// }
+
 
 // Draw loop
 function draw() {
@@ -273,7 +278,7 @@ function draw() {
 
 
 		questionPage();
-	
+    leaderBoard();
 }
 
 
