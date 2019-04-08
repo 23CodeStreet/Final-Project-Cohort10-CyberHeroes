@@ -6,15 +6,15 @@
 }
 
 body {
-  background-color: #feef47;
-  color: #FF0202;
+  background-color: #ffff00;
+  color: #FF0000;
   font-family: 'Press Start 2P', cursive;
 }
 
 
 header {
-  background: #FF0202;
-  color: #feef47;
+  background: #FF0000;
+  color: #ffff00;
   font-size: 2em;
   padding-top: 1em;
   padding-bottom: 1em;
@@ -38,8 +38,8 @@ h1 {
   font-family: 'Press Start 2P', cursive;
   text-align: center;
   padding: 0.5em;
-  background-color: #feef47;
-  color: #FF0202;
+  background-color: #ffff00;
+  color: #FF0000;
   display: flex;
   justify-content: center;
 }
@@ -49,7 +49,7 @@ p {
   font-family: 'Press Start 2P', cursive;
   text-align: center;
   padding: 0.5em;
-  color: #004D77;
+  color: #008080;
   display: flex;
   justify-content: center;
 }
@@ -94,7 +94,7 @@ li {
 
 li a {
   display: block;
-  color: #004D77;
+  color: #008080;
   text-align: center;
   padding: 14px 16px;
   text-decoration: none;
@@ -133,10 +133,10 @@ li a {
 #user-name {
   max-width: 450px;
   padding: 1em 2em;
-  border: 10px solid #0c1fb2;
+  border: 10px solid #000080;
   font-family: 'Press Start 2P';
   background: #efefef;
-  color: #FF0202;
+  color: #FF0000;
   font-size: 2em;
   text-align: center;
 }
