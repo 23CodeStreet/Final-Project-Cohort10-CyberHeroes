@@ -1,5 +1,10 @@
 @import url('https://fonts.googleapis.com/css?family=Press+Start+2P');
 
+
+* {
+  box-sizing: border-box;
+}
+
 body {
   background-color: #feef47;
   color: #FF0202;
@@ -29,7 +34,7 @@ canvas {
 
 /* Kathryn's code */
 h1 {
-  font-size: 2em;
+  font-size: 4em;
   font-family: 'Press Start 2P', cursive;
   text-align: center;
   padding: 0.5em;
@@ -116,24 +121,10 @@ li a {
   max-width: 250px;
 }
 
-.sign-in {
-  height: 50vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: space-around;
+.BackButton {
+  width: 10%;
 }
 
-#user-name {
-  padding: 1em 0;
-  border: 10px solid #0c1fb2;
-  font-family: 'Press Start 2P';
-  background: #efefef;
-  color: #FF0202;
-  font-size: 2em;
-  text-align: center;
-}
-
-.lets-go {
-  max-width: 250px;
+.HomeButton {
+  width: 5%;
 }

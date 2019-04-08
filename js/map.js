@@ -55,8 +55,8 @@ var coin1 = {
   size: 20,
   x: canvas.width - 50,
   y: 50,
-  question:"Question 1: Yes is the right answer",
-  correctAnswer: state.buttons[0]
+  question:"Question 1: One of your online friends is going to help you with your homework, but has asked for your password. Should you give it to them?",
+  correctAnswer: state.buttons[1]
 
 }
 
@@ -64,8 +64,8 @@ var coin2 = {
   size: 20,
   x: 100,
   y: 200,
-  question:"Question 2: Yes is the right answer",
-  correctAnswer: state.buttons[0]
+  question:"Question 2: I always forget my passwords - can I just use the same easy one for all my accounts? ",
+  correctAnswer: state.buttons[1]
 
 }
 
@@ -73,7 +73,7 @@ var coin3 = {
   size: 20,
   x: canvas.width - 300,
   y: canvas.height - 100,
-  question:"Question 3: No is the right answer",
+  question:"Question 3: Someone sends you a message to meet at the park on Saturday. Should you go? ",
   correctAnswer: state.buttons[1]
 
 }
@@ -82,7 +82,7 @@ var coin4 = {
   size: 20,
   x: 200,
   y: 300,
-  question:"Question 4: No is the right answer",
+  question:"Question 4: One of your friends online wants to send you a present and they have asked for your address. Should you give it to them?",
   correctAnswer: state.buttons[1]
 
 }
