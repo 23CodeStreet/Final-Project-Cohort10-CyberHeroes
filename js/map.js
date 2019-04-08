@@ -33,6 +33,7 @@ var state = {
     question: false,
     yesButton: false,
     noButton: false,
+    noCoins: false,
   },
   student: {
     y: canvas.height / 8,
@@ -54,7 +55,9 @@ var coin1 = {
   size: 20,
   x: canvas.width - 50,
   y: 50,
-  question:"Question 1: One of your online friends is going to help you with your homework, but has asked for your password. Should you give it to them?",
+  question1:"One of your online friends is going to help you with",
+  question2: "your homework, but has asked for your password.",
+  question3: "Should you give it to them?",
   correctAnswer: state.buttons[1]
 
 }
@@ -63,7 +66,9 @@ var coin2 = {
   size: 20,
   x: 100,
   y: 200,
-  question:"Question 2: I always forget my passwords - can I just use the same easy one for all my accounts? ",
+  question1:"I always forget my passwords,",
+  question2:"it's so hard to remember them all",
+  question3:"Can I just use the same easy one for all my accounts?",
   correctAnswer: state.buttons[1]
 
 }
@@ -72,7 +77,9 @@ var coin3 = {
   size: 20,
   x: canvas.width - 300,
   y: canvas.height - 100,
-  question:"Question 3: Someone sends you a message to meet at the park on Saturday. Should you go? ",
+  question1:"Someone sends you a message online,",
+  question2:"they want to meet you at the park on Saturday.",
+  question3:"Should you go?",
   correctAnswer: state.buttons[1]
 
 }
@@ -81,7 +88,9 @@ var coin4 = {
   size: 20,
   x: 200,
   y: 300,
-  question:"Question 4: One of your friends online wants to send you a present and they have asked for your address. Should you give it to them?",
+  question1:"One of your online friends wants to send you a present",
+  question2:"and they have asked you to give them your address.",
+  question3:"Should you give it to them?",
   correctAnswer: state.buttons[1]
 
 }
@@ -176,7 +185,9 @@ function questionPage() {
   clearScreen();
 	ctx.fillStyle = "black";
 	ctx.font = "20px Courier New";
-	ctx.fillText(state.touchedCoin.question, canvas.width/6, canvas.height/4);
+	ctx.fillText(state.touchedCoin.question1, canvas.width/18, canvas.height/4);
+  ctx.fillText(state.touchedCoin.question2, canvas.width/18, canvas.height/3);
+  ctx.fillText(state.touchedCoin.question3, canvas.width/18, 5*canvas.height/12);
   ctx.fillText(state.questionTimer, canvas.width/6, canvas.height/8);
 	yesButton();
 	noButton();
@@ -185,6 +196,9 @@ function questionPage() {
     state.questionTimer--;
   }
 }
+
+
+
 
 // Buttons in question page code
 
@@ -196,7 +210,6 @@ function yesButton() {
   ctx.fillStyle = "black";
   ctx.fillText("Yes", button.x+30, button.y+30);
 
-
 }
 
 
@@ -206,33 +219,41 @@ function noButton() {
   ctx.fillRect(button.x, button.y, button.width, button.height);
 
   ctx.fillStyle = "black";
-  ctx.fillText("No", button.x+30, button.y+30);
-
-
+  ctx.fillText("No", button.x + 30, button.y + 30);
 
 }
 
 
+// Answering questions
 
-function answerButton() {
-  if (state.gameMode.yesButton) {
-    alert('Yes button was clicked!');
-  }
-  else if (state.gameMode.noButton) {
-    alert('No button was clicked!');
-  }
-}
-
-function questionPageDisappears() {
+function questionPageDisappears(){
   state.gameMode.question = false;
+  if (state.coins.length === 0) {
+    state.gameMode.noCoins = true;
+  }
+
 }
+
+function leaderBoard() {
+  if(state.gameMode.noCoins)  {
+    clearScreen();
+    console.log("no coins");
+  	ctx.fillStyle = "black";
+  	ctx.font = "20px Courier New";
+  	ctx.fillText("You are a Cyber Hero. Your score is " + state.runningscore, canvas.width/6, canvas.height/4);
+
+}
+}
+
+
+
 
 canvas.addEventListener('click', function(event) {
 	var sc = document.getElementById("screen");
 	var xClick = event.x + window.scrollX - sc.offsetLeft;
 	var yClick = event.y + window.scrollY - sc.offsetTop;
 
-	for(var i = 0, len = state.buttons.length; i<len; i++){
+	for(var i = 0; i < state.buttons.length; i = i + 1){
 		var button = state.buttons[i];
 
 		if (
@@ -254,13 +275,7 @@ canvas.addEventListener('click', function(event) {
 	}
   });
 
-// function endPage() {
-//   if (state.coins.length = 0)
-//   {  clearScreen();
-//   	ctx.fillStyle = "black";
-//   	ctx.font = "20px Courier New";
-//   	ctx.fillText("Congratulations Cyber Hero", canvas.width/6, canvas.height/4);}
-// }
+
 
 // Draw loop
 function draw() {
@@ -273,7 +288,7 @@ function draw() {
 
 
 		questionPage();
-
+    leaderBoard();
 }
 
 
