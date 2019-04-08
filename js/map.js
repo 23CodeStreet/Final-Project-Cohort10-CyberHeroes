@@ -1,4 +1,5 @@
 
+
 var canvas = document.querySelector("#screen")
 canvas.width = 700;
 canvas.height = 500;
@@ -6,56 +7,30 @@ canvas.height = 500;
 
 var ctx = canvas.getContext("2d");
 
-// Object variables
-
-var coinSound = new sound("sounds/coinsound.mp3");
-
-var coin1 = {
-  size: 20,
-  x: canvas.width - 50,
-  y: 50
-
-}
-var coin2 = {
-  size: 20,
-  x: 100,
-  y: 200
-
-}
-var coin3 = {
-  size: 20,
-  x: canvas.width - 300,
-  y: canvas.height - 100
-
-}
-var coin4 = {
-  size: 20,
-  x: 200,
-  y: 300
-
-}
-
 var button1 = {
   x: 200,
   y: 250,
   width: 100,
-  height: 50
+  height: 50,
+  text:"Yes"
 }
 
 var button2 = {
   x: 400,
   y: 250,
   width: 100,
-  height: 50
+  height: 50,
+  text:"No"
 }
-
 var button3 = {
   x: 300,
   y: 350,
   width: 100,
-  height: 50
+  height: 50,
+  text:"Continue"
 }
 
+// Object variables
 var state = {
   upPressed: false,
   leftPressed: false,
@@ -71,10 +46,54 @@ var state = {
   },
   buttons: [button1,button2,button3],
   timeInterval: 20,
-  coins: [coin1,coin2,coin3,coin4],
+  coins: [],
+  runningscore:0,
 };
 
 
+var coinSound = document.getElementById("coinSound");
+var correctSound = document.getElementById("correctSound");
+var incorrectSound = document.getElementById("incorrectSound");
+
+var coin1 = {
+  size: 20,
+  x: canvas.width - 50,
+  y: 50,
+  question:"Question 1: Yes is the right answer",
+  correctAnswer: state.buttons[0]
+
+}
+var coin2 = {
+  size: 20,
+  x: 100,
+  y: 200,
+  question:"Question 2: Yes is the right answer",
+  correctAnswer: state.buttons[0]
+
+}
+var coin3 = {
+  size: 20,
+  x: canvas.width - 300,
+  y: canvas.height - 100,
+  question:"Question 3: No is the right answer",
+  correctAnswer: state.buttons[1]
+
+}
+var coin4 = {
+  size: 20,
+  x: 200,
+  y: 300,
+  question:"Question 4: No is the right answer",
+  correctAnswer: state.buttons[1]
+
+}
+state.coins=[coin1,coin2,coin3,coin4];
+for(var i=0, len = state.coins.length; i<len; i++){
+  var x = Math.floor(Math.random()*600)+50
+  var y = Math.floor(Math.random()*400)+50
+  state.coins[i].x = x;
+  state.coins[i].y = y;
+}
 
 // Coin code
 
@@ -94,6 +113,14 @@ function drawStudent() {
   ctx.drawImage(student, state.student.x, state.student.y, state.student.size, state.student.size);
 }
 
+//Score Code
+
+function drawScore(){
+  ctx.fillStyle = "black";
+	ctx.font = "40px Courier New";
+  ctx.fillText("Score:" + state.runningscore, 50, 50);
+}
+
 
 
 function studentMeetCoin() {
@@ -103,14 +130,16 @@ function studentMeetCoin() {
       state.student.y <= coin.y + coin.size &&
       coin.x <= state.student.x + state.student.size &&
       state.student.x <= coin.x + coin.size) {
-    state.gameMode.question = true;
-    state.coins.splice(i,1)
-    coinSound.play();
+		state.touchedCoin = coin;
+		state.gameMode.question = true;
+		state.coins.splice(i,1)
+		coinSound.play();
+    state.questionTimer = 1000;
     }
   }
 }
 
-function sound(src) {
+/*function sound(src) {
     this.sound = document.createElement("audio");
     this.sound.src = src;
     this.sound.setAttribute("preload", "auto");
@@ -123,11 +152,11 @@ function sound(src) {
     this.stop = function(){
         this.sound.pause();
     }
-}
+}*/
 
 
-function moveStudent() {
-  if (state.upPressed) {
+function moveStudent(direction) {
+  /*if (state.upPressed) {
       state.student.y = state.student.y - 4;
     }
    else if (state.downPressed) {
@@ -139,7 +168,21 @@ function moveStudent() {
   } else {
       state.student.x = state.student.x;
       state.student.y = state.student.y;
+  }*/
+  if (direction=="up") {
+      state.student.y = state.student.y - 4;
+    }
+   else if (direction=="down") {
+      state.student.y = state.student.y + 4;
+  } else if (direction=="left") {
+      state.student.x = state.student.x - 4;
+  } else if (direction=="right") {
+      state.student.x = state.student.x + 4;
+  } else {
+      state.student.x = state.student.x;
+      state.student.y = state.student.y;
   }
+  studentMeetCoin()
 }
 
 
@@ -159,14 +202,16 @@ function clearScreen() {
 // Question page code
 
 function questionPage() {
-  if(state.gameMode.question) {
-  clearScreen();
-  ctx.fillStyle = "black";
-  ctx.font = "20px Courier New";
-  ctx.fillText("Question question question question question", canvas.width/6, canvas.height/4);
-  yesButton();
-  noButton();
-  continueButton();
+	clearScreen();
+	ctx.fillStyle = "black";
+	ctx.font = "20px Courier New";
+	ctx.fillText(state.touchedCoin.question, canvas.width/6, canvas.height/4);
+  ctx.fillText(state.questionTimer, canvas.width/6, canvas.height/8);
+	yesButton();
+	noButton();
+	continueButton();
+  if(state.questionTimer>0){
+    state.questionTimer--;
   }
 }
 
@@ -180,7 +225,7 @@ function yesButton() {
   ctx.fillStyle = "black";
   ctx.fillText("Yes", button.x+30, button.y+30);
 
-  canvas.addEventListener('click', function(event) {
+  /*canvas.addEventListener('click', function(event) {
     if (
       event.x > button.x &&
       event.x < button.x + button.width &&
@@ -189,7 +234,7 @@ function yesButton() {
     ) {
       alert('Yes button was clicked!');
     }
-  });
+  });*/
 }
 
 function noButton() {
@@ -200,7 +245,7 @@ function noButton() {
   ctx.fillStyle = "black";
   ctx.fillText("No", button.x+30, button.y+30);
 
-  canvas.addEventListener('click', function(event) {
+  /*canvas.addEventListener('click', function(event) {
     if (
       event.x > button.x &&
       event.x < button.x + button.width &&
@@ -209,9 +254,8 @@ function noButton() {
     ) {
       alert('No button was clicked!');
     }
-  });
+  });*/
 
-  coinSound.play();
 }
 
 function continueButton() {
@@ -222,7 +266,7 @@ function continueButton() {
   ctx.fillStyle = "black";
   ctx.fillText("Continue", button.x+5, button.y+30);
 
-  canvas.addEventListener('click', function(event) {
+  /*canvas.addEventListener('click', function(event) {
     if (
       event.x < button.x + button.width &&
       event.y > button.y &&
@@ -230,7 +274,7 @@ function continueButton() {
     ) {
       alert('Continue');
     }
-  });
+  });*/
 
 }
 
@@ -239,18 +283,54 @@ function questionPageDisappears() {
   state.gameMode.question = false;
 }
 
-canvas.addEventListener("click", questionPageDisappears);
+canvas.addEventListener('click', function(event) {
+	var sc = document.getElementById("screen");
+	var xClick = event.x + window.scrollX - sc.offsetLeft;
+	var yClick = event.y + window.scrollY - sc.offsetTop;
+	/*console.log("");
+	console.log("Click");
+	console.log("x: " + event.x + " y: " + event.y);
+	console.log("Modified Click");
+	console.log("x: " + xClick + " y: " + yClick);*/
+	for(var i = 0, len = state.buttons.length; i<len; i++){
+		var button = state.buttons[i];
+		/*console.log("Button " + i);
+		console.log("x: " + button.x + " y: " + button.y);*/
+		if (
+		  /*event.x > button.x &&
+		  event.x < button.x + button.width &&
+		  event.y > button.y &&
+		  event.y < button.y + button.height*/
+		  xClick > button.x &&
+		  xClick < button.x + button.width &&
+		  yClick > button.y &&
+		  yClick < button.y + button.height
+		) {
+      if (button == state.touchedCoin.correctAnswer) {
+        state.runningscore += state.questionTimer;
+        correctSound.play();
+      } else {
+        //state.runningscore -= state.questionTimer;
+        incorrectSound.play();
+      }
+
+		  questionPageDisappears();
+		}
+	}
+  });
+
+//canvas.addEventListener("click", questionPageDisappears);
 
 // Draw loop
 function draw() {
-  mapScreen();
-  drawStudent();
-  drawCoins();
-
-  moveStudent();
-  studentMeetCoin();
-  questionPage();
-
+	if(!state.gameMode.question){
+		mapScreen();
+		drawStudent();
+		drawCoins();
+    drawScore();
+	} else {
+		questionPage();
+	}
 }
 
 
@@ -264,56 +344,60 @@ window.addEventListener("load", function(){ setInterval(draw, state.timeInterval
 
   function upKeyDown(e) {
     if (e.keyCode === 38) {
-      state.upPressed = true;
+      //state.upPressed = true;
+	  moveStudent("up");
     }
   }
   body.addEventListener("keydown", upKeyDown);
 
-  function upKeyUp(e) {
+  /*function upKeyUp(e) {
     if (e.keyCode === 38) {
       state.upPressed = false;
     }
   }
-  body.addEventListener("keyup", upKeyUp);
+  body.addEventListener("keyup", upKeyUp);*/
 
   function downKeyDown(e) {
     if (e.keyCode === 40) {
-      state.downPressed = true;
+      //state.downPressed = true;
+	  moveStudent("down");
     }
   }
   body.addEventListener("keydown", downKeyDown);
 
-  function downKeyUp(e) {
+  /*function downKeyUp(e) {
     if (e.keyCode === 40) {
       state.downPressed = false;
     }
   }
-  body.addEventListener("keyup", downKeyUp);
+  body.addEventListener("keyup", downKeyUp);#*/
 
   function leftKeyDown(e) {
     if (e.keyCode === 37) {
-      state.leftPressed = true;
+      //state.leftPressed = true;
+	  moveStudent("left");
     }
   }
   body.addEventListener("keydown", leftKeyDown);
 
-    function leftKeyUp(e) {
+    /*function leftKeyUp(e) {
       if (e.keyCode === 37) {
         state.leftPressed = false;
       }
     }
-    body.addEventListener("keyup", leftKeyUp);
+    body.addEventListener("keyup", leftKeyUp);*/
 
   function rightKeyDown(e) {
     if (e.keyCode === 39) {
-      state.rightPressed = true;
+      //state.rightPressed = true;
+	  moveStudent("right");
     }
   }
   body.addEventListener("keydown", rightKeyDown);
 
-  function rightKeyUp(e) {
+  /*function rightKeyUp(e) {
     if (e.keyCode === 39) {
       state.rightPressed = false;
     }
   }
-  body.addEventListener("keyup", rightKeyUp);
+  body.addEventListener("keyup", rightKeyUp);*/
