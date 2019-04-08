@@ -152,3 +152,69 @@ li a {
 .lets-go {
   max-width: 250px;
 }
+<<<<<<< HEAD
+=======
+}
+.lets-go {
+  max-width: 250px;
+}
+
+.start-btn:hover {
+}
+
+/* css for game info page */
+
+.helloUser{
+  font-size: 2em;
+  font-family: sans-serif;
+  text-align: center;
+  padding: 0.5em;
+  color: #FF0202;
+  display: flex;
+  justify-content: center;
+}
+
+.gameInfo{
+  font-size: 1em;
+  font-family: sans-serif;
+  text-align: left;
+  color: #004D77;
+  align-items: center;
+  justify-content: center;
+  max-width: 600px;
+}
+
+.img1game {
+  float: left;
+  padding: 1em 4em;
+  max-width: 300px;
+}
+
+.rightCol{
+  
+  font-size: 2em;
+  padding-top: 8em;
+  display: flex;
+  justify-content: center;
+  max-width: 40%;
+}
+
+.leftCol{
+  display: flex;
+  flex-direction: column;
+  max-width: 40%;
+  align-items: center;
+}
+
+.gameInfoContainer{
+  display: flex;
+  justify-content: space-around;
+}
+
+.play-btn{
+  max-width: 250px;
+  margin: 3em auto;
+  display: block;
+
+}
+>>>>>>> 1ce95c8a0240ca357ab9800effa05d3e1399a86d
