@@ -34,7 +34,7 @@ canvas {
 
 /* Kathryn's code */
 h1 {
-  font-size: 4em;
+  font-size: 2em;
   font-family: 'Press Start 2P', cursive;
   text-align: center;
   padding: 0.5em;
@@ -127,4 +127,28 @@ li a {
 
 .HomeButton {
   width: 5%;
+  margin-left: 3em;
+}
+
+#user-name {
+  max-width: 450px;
+  padding: 1em 2em;
+  border: 10px solid #0c1fb2;
+  font-family: 'Press Start 2P';
+  background: #efefef;
+  color: #FF0202;
+  font-size: 2em;
+  text-align: center;
+}
+
+.sign-in {
+  height: 50vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-around;
+}
+
+.lets-go {
+  max-width: 250px;
 }
