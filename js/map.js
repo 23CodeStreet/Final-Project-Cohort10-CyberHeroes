@@ -24,6 +24,15 @@ var button2 = {
   text:"No"
 }
 
+var button3= {
+  x: 300,
+  y: 250,
+  width: 150,
+  height: 50,
+  text:"Try Again"
+}
+
+
 var state = {
   upPressed: false,
   leftPressed: false,
@@ -40,7 +49,7 @@ var state = {
     x: canvas.width / 8,
     size: 40,
   },
-  buttons: [button1,button2],
+  buttons: [button1,button2,button3],
   timeInterval: 20,
   coins: [],
   runningscore:0,
@@ -232,6 +241,14 @@ function leaderBoard() {
   	ctx.font = "20px Courier New";
   	ctx.fillText("You are a Cyber Hero. Your score is " + state.runningscore, canvas.width/6, canvas.height/4);
 
+    var button = state.buttons[2];
+    ctx.fillStyle = 'red';
+    ctx.fillRect(button.x, button.y, button.width, button.height);
+
+    ctx.fillStyle = "black";
+    ctx.fillText("Try Again", button.x + 10, button.y + 30);
+
+    canvas.addEventListener("click", function(){location.reload(false);});
 }
 }
 
