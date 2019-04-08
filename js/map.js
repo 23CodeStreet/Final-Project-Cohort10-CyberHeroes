@@ -63,6 +63,8 @@ var state = {
   downPressed: false,
   gameMode: {
     question: false,
+    yesButton: false,
+    noButton: false,
   },
   student: {
     y: canvas.height / 8,
@@ -156,19 +158,7 @@ function clearScreen() {
   ctx.fillRect(0, 0, canvas.width, canvas.height);
 }
 
-// Question page code
 
-function questionPage() {
-  if(state.gameMode.question) {
-  clearScreen();
-  ctx.fillStyle = "black";
-  ctx.font = "20px Courier New";
-  ctx.fillText("Question question question question question", canvas.width/6, canvas.height/4);
-  yesButton();
-  noButton();
-  continueButton();
-  }
-}
 
 // Buttons in question page code
 
@@ -187,10 +177,11 @@ function yesButton() {
       event.y > button.y &&
       event.y < button.y + button.height
     ) {
-      alert('Yes button was clicked!');
+      state.gameMode.yesButton = true;
     }
   });
 }
+
 
 function noButton() {
   var button = state.buttons[1];
@@ -207,7 +198,7 @@ function noButton() {
       event.y > button.y &&
       event.y < button.y + button.height
     ) {
-      alert('No button was clicked!');
+      state.gameMode.noButton = true;
     }
   });
 
@@ -222,24 +213,39 @@ function continueButton() {
   ctx.fillStyle = "black";
   ctx.fillText("Continue", button.x+5, button.y+30);
 
-  canvas.addEventListener('click', function(event) {
-    if (
-      event.x < button.x + button.width &&
-      event.y > button.y &&
-      event.y < button.y + button.height
-    ) {
-      alert('Continue');
-    }
-  });
+canvas.addEventListener('click', questionPageDisappears)
 
 }
 
+function answerButton() {
+  if (state.gameMode.yesButton) {
+    alert('Yes button was clicked!');
+  }
+  else if (state.gameMode.noButton) {
+    alert('No button was clicked!');
+  }
+}
 
 function questionPageDisappears() {
   state.gameMode.question = false;
 }
 
-canvas.addEventListener("click", questionPageDisappears);
+// Question page code
+
+
+function questionPage() {
+  if(state.gameMode.question) {
+  clearScreen();
+  ctx.fillStyle = "black";
+  ctx.font = "20px Courier New";
+  ctx.fillText("Question question question question question", canvas.width/6, canvas.height/4);
+  yesButton();
+  noButton();
+  continueButton();
+  }
+}
+
+// canvas.addEventListener("click", questionPageDisappears);
 
 // Draw loop
 function draw() {
@@ -250,6 +256,7 @@ function draw() {
   moveStudent();
   studentMeetCoin();
   questionPage();
+  answerButton();
 
 }
 
