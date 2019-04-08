@@ -258,6 +258,9 @@ function leaderBoard() {
     ctx.fillStyle = "black";
     ctx.fillText("Try Again", button.x + 10, button.y + 30);
 
+    var map = document.getElementById("wizard");
+    ctx.drawImage(wizard, canvas.width/2, 400, 50, 50);
+
     canvas.addEventListener("click", function(){location.reload(false);});
 }
 }
