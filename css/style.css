@@ -26,9 +26,11 @@ header {
 canvas {
   width: 700px;
   height: 500px;
-  margin: auto;
+  position: absolute;
   display: block;
   border: 2px solid black;
+  margin-top: 19em;
+  margin-bottom: 1em;
 
 }
 
