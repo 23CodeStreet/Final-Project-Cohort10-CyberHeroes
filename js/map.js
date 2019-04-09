@@ -24,9 +24,9 @@ var button2 = {
   text:"No"
 }
 
-var button3= {
+var reloadButton = {
   x: 300,
-  y: 250,
+  y: 200,
   width: 150,
   height: 50,
   text:"Try Again"
@@ -49,7 +49,7 @@ var state = {
     x: canvas.width / 8,
     size: 40,
   },
-  buttons: [button1,button2,button3],
+  buttons: [button1,button2],
   timeInterval: 20,
   coins: [],
   runningscore:0,
@@ -62,8 +62,8 @@ var incorrectSound = document.getElementById("incorrectSound");
 
 var coin1 = {
   size: 20,
-  x: canvas.width - 50,
-  y: 50,
+  x: Math.floor(Math.random()*(3*canvas.width/10))+(canvas.width/10),
+  y: Math.floor(Math.random()*(3*canvas.height/10))+(canvas.height/10),
   question1:"One of your online friends is going to help you with",
   question2: "your homework, but has asked for your password.",
   question3: "Should you give it to them?",
@@ -73,8 +73,8 @@ var coin1 = {
 
 var coin2 = {
   size: 20,
-  x: 100,
-  y: 200,
+  x: Math.floor(Math.random()*(3*canvas.width/10))+(canvas.width/10),
+  y: Math.floor(Math.random()*(3*canvas.height/10))+(canvas.height/2),
   question1:"I always forget my passwords,",
   question2:"it's so hard to remember them all",
   question3:"Can I just use the same easy one for all my accounts?",
@@ -84,8 +84,8 @@ var coin2 = {
 
 var coin3 = {
   size: 20,
-  x: canvas.width - 300,
-  y: canvas.height - 100,
+  x: Math.floor(Math.random()*(3*canvas.width/10))+(canvas.width/2),
+  y: Math.floor(Math.random()*(3*canvas.height/10))+(canvas.height/10),
   question1:"Someone sends you a message online,",
   question2:"they want to meet you at the park on Saturday.",
   question3:"Should you go?",
@@ -95,8 +95,8 @@ var coin3 = {
 
 var coin4 = {
   size: 20,
-  x: 200,
-  y: 300,
+  x: Math.floor(Math.random()*(3*canvas.width/10))+(canvas.width/2),
+  y: Math.floor(Math.random()*(3*canvas.height/10))+(canvas.height/2),
   question1:"One of your online friends wants to send you a present",
   question2:"and they have asked you to give them your address.",
   question3:"Should you give it to them?",
@@ -104,16 +104,10 @@ var coin4 = {
 
 }
 
+// Coin code
+
 state.coins=[coin1,coin2,coin3,coin4];
 
-for(var i=0; i < state.coins.length; i = i + 1){
-  var x = Math.floor(Math.random()*600)+50
-  var y = Math.floor(Math.random()*400)+50
-  state.coins[i].x = x;
-  state.coins[i].y = y;
-}
-
-// Coin code
 
 function drawCoins() {
   var yellowCoin = document.getElementById("coin");
@@ -154,7 +148,6 @@ function studentMeetCoin() {
     }
   }
 }
-
 
 
 
@@ -200,13 +193,12 @@ function questionPage() {
   ctx.fillText(state.questionTimer, canvas.width/6, canvas.height/8);
 	yesButton();
 	noButton();
-}
+  }
+
   if(state.questionTimer>0){
     state.questionTimer--;
   }
 }
-
-
 
 
 // Buttons in question page code
@@ -240,32 +232,7 @@ function questionPageDisappears(){
   if (state.coins.length === 0) {
     state.gameMode.noCoins = true;
   }
-
 }
-
-function leaderBoard() {
-  if(state.gameMode.noCoins)  {
-    clearScreen();
-    console.log("no coins");
-  	ctx.fillStyle = "black";
-  	ctx.font = "20px Courier New";
-  	ctx.fillText("You are a Cyber Hero. Your score is " + state.runningscore, canvas.width/6, canvas.height/4);
-
-    var button = state.buttons[2];
-    ctx.fillStyle = 'red';
-    ctx.fillRect(button.x, button.y, button.width, button.height);
-
-    ctx.fillStyle = "black";
-    ctx.fillText("Try Again", button.x + 10, button.y + 30);
-
-    var map = document.getElementById("wizard");
-    ctx.drawImage(wizard, canvas.width/2, 400, 50, 50);
-
-    canvas.addEventListener("click", function(){location.reload(false);});
-}
-}
-
-
 
 
 canvas.addEventListener('click', function(event) {
@@ -275,26 +242,44 @@ canvas.addEventListener('click', function(event) {
 
 	for(var i = 0; i < state.buttons.length; i = i + 1){
 		var button = state.buttons[i];
+		if (xClick > button.x &&
+		    xClick < button.x + button.width &&
+		    yClick > button.y &&
+		    yClick < button.y + button.height) {
 
-		if (
-
-		  xClick > button.x &&
-		  xClick < button.x + button.width &&
-		  yClick > button.y &&
-		  yClick < button.y + button.height
-		) {
-      if (button == state.touchedCoin.correctAnswer) {
+    if (button == state.touchedCoin.correctAnswer) {
         state.runningscore += state.questionTimer;
         correctSound.play();
       } else {
         incorrectSound.play();
       }
 
-		  questionPageDisappears();
-		}
-	}
-  });
+      questionPageDisappears();
+		  }
+	   }
+  })
 
+
+  function leaderBoard() {
+    if(state.gameMode.noCoins)  {
+      clearScreen();
+      console.log("no coins");
+    	ctx.fillStyle = "black";
+    	ctx.font = "20px Courier New";
+    	ctx.fillText("You are a Cyber Hero. Your score is " + state.runningscore, canvas.width/6, canvas.height/4);
+
+      ctx.fillStyle = 'red';
+      ctx.fillRect(reloadButton.x, reloadButton.y, reloadButton.width, reloadButton.height);
+
+      ctx.fillStyle = "black";
+      ctx.fillText("Try Again", reloadButton.x + 10, reloadButton.y + 30);
+
+      var wizard = document.getElementById("wizard");
+      ctx.drawImage(wizard, canvas.width/2 - 50, 270, 200, 200);
+
+      canvas.addEventListener("click", function(){location.reload(true);});
+    }
+  }
 
 
 // Draw loop
