@@ -210,7 +210,7 @@ function questionPage() {
   ctx.fillText(state.touchedCoin.question3, canvas.width/3, 6*canvas.height/20);
   ctx.fillText(state.touchedCoin.question4, canvas.width/3, 7*canvas.height/20);
   ctx.fillText(state.touchedCoin.question5, canvas.width/3, 8*canvas.height/20);
-  ctx.fillText(state.questionTimer, canvas.width/6, canvas.height/8);
+  ctx.fillText(state.questionTimer, canvas.width/13, canvas.height/8);
 	yesButton();
 	noButton();
   }
