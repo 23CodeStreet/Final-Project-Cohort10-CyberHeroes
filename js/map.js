@@ -9,25 +9,25 @@ var ctx = canvas.getContext("2d");
 // Object variables
 
 var button1 = {
-  x: 200,
-  y: 250,
+  x: 250,
+  y: 220,
   width: 100,
   height: 50,
   text:"Yes"
 }
 
 var button2 = {
-  x: 400,
-  y: 250,
+  x: 450,
+  y: 220,
   width: 100,
   height: 50,
   text:"No"
 }
 
 var reloadButton = {
-  x: 300,
-  y: 200,
-  width: 150,
+  x: 290,
+  y: canvas.height/2,
+  width: 130,
   height: 50,
   text:"Try Again"
 }
@@ -45,8 +45,8 @@ var state = {
     noCoins: false,
   },
   student: {
-    y: canvas.height / 8,
-    x: canvas.width / 8,
+    y: canvas.height / 10,
+    x: canvas.width / 10,
     size: 40,
   },
   buttons: [button1,button2],
@@ -64,9 +64,11 @@ var coin1 = {
   size: 20,
   x: Math.floor(Math.random()*(3*canvas.width/10))+(canvas.width/10),
   y: Math.floor(Math.random()*(3*canvas.height/10))+(canvas.height/10),
-  question1:"One of your online friends is going to help you with",
-  question2: "your homework, but has asked for your password.",
-  question3: "Should you give it to them?",
+  question1:"One of your online friends is",
+  question2: "going to help you with your",
+  question3: "homework, but has asked for",
+  question4: "your password.",
+  question5: "Should you give it to them?",
   correctAnswer: state.buttons[1]
 
 }
@@ -76,8 +78,10 @@ var coin2 = {
   x: Math.floor(Math.random()*(3*canvas.width/10))+(canvas.width/10),
   y: Math.floor(Math.random()*(3*canvas.height/10))+(canvas.height/2),
   question1:"I always forget my passwords,",
-  question2:"it's so hard to remember them all",
-  question3:"Can I just use the same easy one for all my accounts?",
+  question2:"it's so hard to remember them",
+  question3:"all. Can I just use the same",
+  question4:"easy one for all of my",
+  question5:"accounts?",
   correctAnswer: state.buttons[1]
 
 }
@@ -86,9 +90,11 @@ var coin3 = {
   size: 20,
   x: Math.floor(Math.random()*(3*canvas.width/10))+(canvas.width/2),
   y: Math.floor(Math.random()*(3*canvas.height/10))+(canvas.height/10),
-  question1:"Someone sends you a message online,",
-  question2:"they want to meet you at the park on Saturday.",
-  question3:"Should you go?",
+  question1:"Someone sends you a message",
+  question2:"online. They want to meet you",
+  question3:"at the park on Saturday.",
+  question4:"Should you go?",
+  question5:" ",
   correctAnswer: state.buttons[1]
 
 }
@@ -97,9 +103,11 @@ var coin4 = {
   size: 20,
   x: Math.floor(Math.random()*(3*canvas.width/10))+(canvas.width/2),
   y: Math.floor(Math.random()*(3*canvas.height/10))+(canvas.height/2),
-  question1:"One of your online friends wants to send you a present",
-  question2:"and they have asked you to give them your address.",
-  question3:"Should you give it to them?",
+  question1:"One of your online friends",
+  question2:"wants to send you a present",
+  question3:"and they have asked you",
+  question4:"to give them your address.",
+  question5:"Should you give it to them?",
   correctAnswer: state.buttons[1]
 
 }
@@ -123,7 +131,7 @@ function drawCoins() {
 function drawScore(){
   ctx.fillStyle = "black";
 	ctx.font = "40px Courier New";
-  ctx.fillText("Score:" + state.runningscore, 50, 50);
+  ctx.fillText("Score:" + state.runningscore, 20, 40);
 }
 
 // Student code
@@ -181,15 +189,27 @@ function clearScreen() {
   ctx.fillRect(0, 0, canvas.width, canvas.height);
 }
 
+function questionPageScreen() {
+  var wizardHorse = document.getElementById("wizardHorse");
+  ctx.drawImage(wizardHorse, 0, 0, canvas.width, canvas.height);
+}
+
+function endPageScreen() {
+  var speechBubble = document.getElementById("speechBubble");
+  ctx.drawImage(speechBubble, 0, 0, canvas.width, canvas.height);
+}
+
 
 function questionPage() {
   if(state.gameMode.question) {
-  clearScreen();
+  questionPageScreen();
 	ctx.fillStyle = "black";
 	ctx.font = "20px Courier New";
-	ctx.fillText(state.touchedCoin.question1, canvas.width/18, canvas.height/4);
-  ctx.fillText(state.touchedCoin.question2, canvas.width/18, canvas.height/3);
-  ctx.fillText(state.touchedCoin.question3, canvas.width/18, 5*canvas.height/12);
+	ctx.fillText(state.touchedCoin.question1, canvas.width/3, canvas.height/5);
+  ctx.fillText(state.touchedCoin.question2, canvas.width/3, 5*canvas.height/20);
+  ctx.fillText(state.touchedCoin.question3, canvas.width/3, 6*canvas.height/20);
+  ctx.fillText(state.touchedCoin.question4, canvas.width/3, 7*canvas.height/20);
+  ctx.fillText(state.touchedCoin.question5, canvas.width/3, 8*canvas.height/20);
   ctx.fillText(state.questionTimer, canvas.width/6, canvas.height/8);
 	yesButton();
 	noButton();
@@ -209,7 +229,7 @@ function yesButton() {
   ctx.fillRect(button.x, button.y, button.width, button.height);
 
   ctx.fillStyle = "black";
-  ctx.fillText("Yes", button.x+30, button.y+30);
+  ctx.fillText("Yes", button.x + 30, button.y + 30);
 
 }
 
@@ -262,11 +282,14 @@ canvas.addEventListener('click', function(event) {
 
   function leaderBoard() {
     if(state.gameMode.noCoins)  {
-      clearScreen();
+      endPageScreen();
       console.log("no coins");
     	ctx.fillStyle = "black";
     	ctx.font = "20px Courier New";
-    	ctx.fillText("You are a Cyber Hero. Your score is " + state.runningscore, canvas.width/6, canvas.height/4);
+    	ctx.fillText("Congratulations!", canvas.width/3 + 10, canvas.height/9);
+      ctx.fillText("You are a Cyber Hero.", canvas.width/3, 2*canvas.height/9);
+      ctx.fillText("Your score is " + state.runningscore, canvas.width/3 + 10, 3*canvas.height/9);
+      ctx.fillText("Want to improve your score?", canvas.width/3 - 42, 4*canvas.height/9);
 
       ctx.fillStyle = 'red';
       ctx.fillRect(reloadButton.x, reloadButton.y, reloadButton.width, reloadButton.height);
@@ -274,8 +297,11 @@ canvas.addEventListener('click', function(event) {
       ctx.fillStyle = "black";
       ctx.fillText("Try Again", reloadButton.x + 10, reloadButton.y + 30);
 
+      var studentFront = document.getElementById("studentFront");
+      ctx.drawImage(studentFront, 10, 280, 150, 150);
+
       var wizard = document.getElementById("wizard");
-      ctx.drawImage(wizard, canvas.width/2 - 50, 270, 200, 200);
+      ctx.drawImage(wizard, 170, 350, 100, 100);
 
       canvas.addEventListener("click", function(){location.reload(true);});
     }
