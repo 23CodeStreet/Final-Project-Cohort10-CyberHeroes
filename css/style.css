@@ -26,11 +26,10 @@ header {
 canvas {
   width: 700px;
   height: 500px;
-  position: absolute;
+  position: relative;
   display: block;
   border: 2px solid black;
-  margin-top: 19em;
-  margin-bottom: 1em;
+  margin-bottom: 5em;
 
 }
 
@@ -192,7 +191,7 @@ li a {
 }
 
 .rightCol{
-  
+
   font-size: 2em;
   padding-top: 8em;
   display: flex;
