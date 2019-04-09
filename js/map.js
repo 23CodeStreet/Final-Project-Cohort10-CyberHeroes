@@ -45,8 +45,8 @@ var state = {
     noCoins: false,
   },
   student: {
-    y: canvas.height / 10,
-    x: canvas.width / 10,
+    y: canvas.height / 12,
+    x: canvas.width / 20,
     size: 40,
   },
   buttons: [button1,button2],
