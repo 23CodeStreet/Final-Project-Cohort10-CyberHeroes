@@ -59,9 +59,9 @@ p {
 
 .container {
   display: flex;
-  justify-content: space-evenly;
-  align-items: flex-end;
-  padding: 2em 10em 0em 10em;
+  justify-content: center;
+  align-items: center;
+  height: 60vh;
 }
 
 .img1{
