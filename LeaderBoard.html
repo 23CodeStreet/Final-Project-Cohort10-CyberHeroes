@@ -1,0 +1,21 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset=utf-8>
+  <title>Leader Board</title>
+  <script src="https://cdn.firebase.com/js/client/2.0.4/firebase.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/5.9.3/firebase.js"></script>
+  <link href="https://fonts.googleapis.com/css?family=Montserrat:800|Open+Sans" rel="stylesheet">
+  <link rel="stylesheet" type="text/css" href="css/reset.css">
+  <link rel="stylesheet" type="text/css" href="css/style.css">
+  </head>
+<body>
+  <h1>Leader Board</h1>
+  <!-- Ideally we can get rid of the input fields and use stuff from the state-->
+  <input id="name" type="text" placeholder="your name">
+  <input id="score" type="text" placeholder="your score">
+  <input type="button" onclick="save()" value="Save">
+  <div id="scores"></div>
+<script src="js/LeaderBoard.js"></script>
+</body>
+</html>
