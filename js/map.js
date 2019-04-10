@@ -13,7 +13,6 @@ var button1 = {
   y: 220,
   width: 100,
   height: 50,
-  text:"Yes"
 }
 
 var button2 = {
@@ -21,15 +20,13 @@ var button2 = {
   y: 220,
   width: 100,
   height: 50,
-  text:"No"
 }
 
 var reloadButton = {
-  x: 290,
+  x: 230,
   y: canvas.height/2,
-  width: 130,
+  width: 250,
   height: 50,
-  text:"Try Again"
 }
 
 
@@ -289,23 +286,37 @@ canvas.addEventListener('click', function(event) {
     	ctx.fillText("Congratulations!", canvas.width/3 + 10, canvas.height/9);
       ctx.fillText("You are a Cyber Hero.", canvas.width/3, 2*canvas.height/9);
       ctx.fillText("Your score is " + state.runningscore, canvas.width/3 + 10, 3*canvas.height/9);
-      ctx.fillText("Want to improve your score?", canvas.width/3 - 42, 4*canvas.height/9);
+      ctx.fillText("Post your score!", canvas.width/3 + 15, 4*canvas.height/9);
 
       ctx.fillStyle = 'red';
       ctx.fillRect(reloadButton.x, reloadButton.y, reloadButton.width, reloadButton.height);
 
       ctx.fillStyle = "black";
-      ctx.fillText("Try Again", reloadButton.x + 10, reloadButton.y + 30);
+      ctx.fillText("To the Leaderboard!", reloadButton.x + 10, reloadButton.y + 30);
 
       var studentFront = document.getElementById("studentFront");
       ctx.drawImage(studentFront, 10, 280, 150, 150);
 
       var wizard = document.getElementById("wizard");
       ctx.drawImage(wizard, 170, 350, 100, 100);
+      canvas.addEventListener('click', function(event) {
+        var sc = document.getElementById("screen");
+        var xClick = event.x + window.scrollX - sc.offsetLeft;
+        var yClick = event.y + window.scrollY - sc.offsetTop;
 
-      canvas.addEventListener("click", function(){location.reload(true);});
+          if (xClick > reloadButton.x &&
+              xClick < reloadButton.x + reloadButton.width &&
+              yClick > reloadButton.y &&
+              yClick < reloadButton.y + reloadButton.height) {
+
+
+            window.location.replace("LeaderBoard.html")
+            }
+           })
     }
   }
+
+
 
 
 // Draw loop
