@@ -217,3 +217,15 @@ li a {
   display: block;
 
 }
+
+.leaderboard{
+  border: none;
+  /* margin: 1em; */
+  /* padding: 0em em; */
+  align-items: center;
+  text-align: center;
+}
+
+div{
+  padding-top: 2em;
+}
